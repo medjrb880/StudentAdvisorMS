@@ -1,0 +1,87 @@
+/* ===== Affectations Styles ===== */
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f7f9fb;
+    color: #333;
+    padding: 40px;
+}
+
+h1 {
+    color: #003366;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+a {
+    color: #007acc;
+    text-decoration: none;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+p {
+    font-size: 16px;
+    color: green;
+    margin-bottom: 20px;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #004d99;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+select {
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: #fafafa;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+/* Button */
+button[type="submit"] {
+    background-color: #007acc;
+    color: white;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #005f99;
+}

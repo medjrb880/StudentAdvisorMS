@@ -1,0 +1,151 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at center, #1e305f, #091b3d);
+}
+
+/* Conteneur principal */
+.portal-container {
+  position: relative;
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Image de fond */
+.portal-img {
+  display: block;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 0 50px rgba(0, 240, 255, 0.4);
+}
+
+/* Boîte de login en verre */
+.glass-login-box {
+  position: absolute;
+  top: 50%;
+  right: 2%;
+  transform: translateY(-50%);
+  width: 380px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(0, 210, 255, 0.6);
+  border-radius: 20px;
+  padding: 40px 30px;
+  box-shadow: 0 0 50px rgba(0, 210, 255, 0.5);
+  backdrop-filter: blur(24px);
+  animation: fadeIn 1s ease;
+  color: #fff;
+  z-index: 2;
+}
+
+/* Titre et paragraphe */
+.glass-login-box h1 {
+  font-size: 30px;
+  margin-bottom: 10px;
+  color: #7ef1ff;
+}
+
+.glass-login-box p {
+  color: #cceaff;
+  margin-bottom: 24px;
+}
+
+/* Champs de formulaire */
+.form-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 36px 12px 12px;
+  border: 1px solid #7ef1ff;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 16px;
+}
+
+.form-group input::placeholder {
+  color: transparent;
+}
+
+.form-group label {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #cceaff;
+  font-size: 14px;
+  pointer-events: none;
+  transition: top 0.3s, font-size 0.3s, color 0.3s;
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  top: -8px;
+  font-size: 12px;
+  color: #7ef1ff;
+  background-color: transparent;
+}
+
+/* Icônes dans les champs */
+.input-icon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Bouton principal */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #7ef1ff, #3ecaff);
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.6);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-primary:hover {
+  transform: scale(1.03);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* Animation fadeIn */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Message d'erreur */
+.error-message {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  border-radius: 6px;
+  color: #ffb3b3;
+  font-size: 14px;
+  text-align: center;
+}
+

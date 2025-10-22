@@ -1,0 +1,72 @@
+/* ===== Style de la page Mon Encadrant ===== */
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #eef2f7;
+    margin: 0;
+    padding: 40px;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1 {
+    color: #004080;
+    margin-bottom: 30px;
+}
+
+.card {
+    background-color: #f0f8ff;
+    padding: 20px;
+    border: 1px solid #cce0ff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+}
+
+.card h2 {
+    color: #003366;
+    margin: 0;
+    font-size: 22px;
+}
+
+.card p {
+    font-size: 16px;
+    color: #555;
+    margin-top: 8px;
+}
+
+button {
+    background-color: #cc3300;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #b32400;
+}
+
+a {
+    display: inline-block;
+    margin-top: 20px;
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}
