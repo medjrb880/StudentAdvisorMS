@@ -34,14 +34,15 @@ SELECT
     a.id AS affectation_id,
     a.encadrant_id,
     a.valide_par_chef,
-    e.nom AS etudiant_nom,
-    e.prenom AS etudiant_prenom,
-    u.nom AS encadrant_nom,
-    u.email AS encadrant_email,
+    u_etud.nom AS etudiant_nom,
+    u_etud.prenom AS etudiant_prenom,
+    u_enc.nom AS encadrant_nom,
+    u_enc.prenom AS encadrant_prenom,
+    u_enc.email AS encadrant_email,
     a.date_affectation
 FROM affectations a
-JOIN etudiants e ON a.etudiant_id = e.id
-JOIN users u ON a.encadrant_id = u.id
+JOIN users u_etud ON a.etudiant_id = u_etud.id
+JOIN users u_enc ON a.encadrant_id = u_enc.id
 ORDER BY a.date_affectation DESC
 ";
 
@@ -68,8 +69,8 @@ $affectations = $result->fetchAll(PDO::FETCH_ASSOC);
                 <tr>
                     <th>#</th>
                     <th>Étudiant</th>
-                    <th>Encadrant</th>
-                    <th>Email Encadrant</th>
+                    <th>Modifier Encadrant</th>
+                    <th>Encadrant Actuel</th>
                     <th>Date d'affectation</th>
                     <th>Valider</th>
                 </tr>
@@ -79,7 +80,7 @@ $affectations = $result->fetchAll(PDO::FETCH_ASSOC);
                     <?php foreach ($affectations as $row): ?>
                         <tr>
                             <td><?= htmlspecialchars($row['affectation_id']) ?></td>
-                            <td><?= htmlspecialchars($row['etudiant_nom'] . ' ' . $row['etudiant_prenom']) ?></td>
+                            <td><?= htmlspecialchars($row['etudiant_prenom'] . ' ' . $row['etudiant_nom']) ?></td>
                             <td>
                                 <select name="affectations[<?= $row['affectation_id'] ?>][encadrant_id]">
                                     <?php foreach ($encadrants as $encadrant): ?>
@@ -89,7 +90,7 @@ $affectations = $result->fetchAll(PDO::FETCH_ASSOC);
                                     <?php endforeach; ?>
                                 </select>
                             </td>
-                            <td><?= htmlspecialchars($row['encadrant_email']) ?></td>
+                            <td><?= htmlspecialchars($row['encadrant_prenom'] . ' ' . $row['encadrant_nom']) ?> (<?= htmlspecialchars($row['encadrant_email']) ?>)</td>
                             <td><?= htmlspecialchars($row['date_affectation']) ?></td>
                             <td>
                                 <input type="checkbox" name="affectations[<?= $row['affectation_id'] ?>][valide]" <?= $row['valide_par_chef'] ? 'checked' : '' ?>>

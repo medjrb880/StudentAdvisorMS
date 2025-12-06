@@ -14,8 +14,8 @@ if (!$etudiant_id) {
     die("Utilisateur non connecté.");
 }
 
-// 3) Vérifier que l'étudiant existe dans la table `etudiants`
-$check_student = $conn->prepare("SELECT id FROM etudiants WHERE id = ?");
+// 3) Vérifier que l'étudiant existe dans la table `users`
+$check_student = $conn->prepare("SELECT id FROM users WHERE id = ? AND role = 'etudiant'");
 $check_student->execute([$etudiant_id]);
 if (!$check_student->fetch()) {
     die("L'étudiant n'existe pas dans la base de données.");

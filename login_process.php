@@ -31,6 +31,7 @@ if (!$user || !password_verify($password, $user['mot_de_passe'])) {
 // Connexion réussie
 $_SESSION['user_id']   = $user['id'];
 $_SESSION['username']  = $user['nom'];
+$_SESSION['prenom']    = $user['prenom'];
 $_SESSION['email']     = $user['email'];
 $_SESSION['user_role'] = $user['role']; // important pour la redirection par rôle
 

@@ -12,11 +12,11 @@ $encadrant_id = $_SESSION['user_id'];
 
 // Récupérer les étudiants affectés à cet encadrant via la table des affectations
 $sql = "
-SELECT e.id, e.nom, e.prenom, e.numero_inscription, e.parcours
+SELECT u.id, u.nom, u.prenom, u.numero_inscription, u.parcours
 FROM affectations a
-JOIN etudiants e ON a.etudiant_id = e.id
-WHERE a.encadrant_id = :encadrant_id
-ORDER BY e.nom ASC
+JOIN users u ON a.etudiant_id = u.id
+WHERE a.encadrant_id = :encadrant_id AND u.role = 'etudiant'
+ORDER BY u.nom ASC
 ";
 $stmt = $conn->prepare($sql);
 $stmt->execute([':encadrant_id' => $encadrant_id]);

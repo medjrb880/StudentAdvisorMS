@@ -19,7 +19,7 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
 }
 
 // Fetch all users
-$stmt = $conn->query("SELECT id, nom, email, role FROM users ORDER BY role ASC, nom ASC");
+$stmt = $conn->query("SELECT id, nom, prenom, email, role FROM users ORDER BY role ASC, nom ASC");
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -60,7 +60,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php foreach ($users as $user): ?>
                 <tr>
                     <td><?= htmlspecialchars($user['id']) ?></td>
-                    <td><?= htmlspecialchars($user['nom']) ?></td>
+                    <td><?= htmlspecialchars($user['prenom'] . ' ' . $user['nom']) ?></td>
                     <td><?= htmlspecialchars($user['email']) ?></td>
                     <td><?= htmlspecialchars($user['role']) ?></td>
                     <td>

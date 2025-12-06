@@ -2,16 +2,16 @@
 session_start();
 
 
-if (!isset($_SESSION['client_id'])) {
+if (!isset($_SESSION['user_id'])) {
     echo "<p style='color:red; text-align:center; font-weight:bold;'>⚠️ You must be logged in to view this page.</p>";
     exit;
 }
 
 // Load from session
 $username = htmlspecialchars($_SESSION['username']);
-$prenom   = htmlspecialchars($_SESSION['prenom']);
+$prenom   = htmlspecialchars($_SESSION['prenom'] ?? 'User');
 $email    = htmlspecialchars($_SESSION['email']);
-$phone    = htmlspecialchars($_SESSION['phone']);
+$phone    = htmlspecialchars($_SESSION['phone'] ?? 'N/A');
 ?>
 <body>
   <div class="account-page">

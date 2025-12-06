@@ -11,16 +11,16 @@ require '../connexion.php';
 // Step 1: Fetch students with their average score
 $studentsStmt = $conn->query("
     SELECT 
-        et.id AS etudiant_id, 
-        et.moyenne_1ere_annee, 
-        et.moyenne_2eme_annee,
+        u.id AS etudiant_id, 
+        u.moyenne_1ere_annee, 
+        u.moyenne_2eme_annee,
         p.choix1_id, 
         p.choix2_id, 
         p.choix3_id
-    FROM etudiants et
-    JOIN preferences p ON et.id = p.etudiant_id
+    FROM users u
+    JOIN preferences p ON u.id = p.etudiant_id
     LEFT JOIN affectations a ON p.etudiant_id = a.etudiant_id
-    WHERE a.id IS NULL
+    WHERE u.role = 'etudiant' AND a.id IS NULL
 ");
 
 // Step 2: Calculate the average score and sort students by descending order
@@ -38,10 +38,11 @@ usort($students, function($a, $b) {
 
 // Step 3: Fetch encadrant quotas and current counts
 $encadrantsStmt = $conn->query("
-    SELECT e.id, e.quota_max, COUNT(a.id) AS assigned
-    FROM encadrants e
-    LEFT JOIN affectations a ON e.id = a.encadrant_id
-    GROUP BY e.id
+    SELECT u.id, u.quota_max, COUNT(a.id) AS assigned
+    FROM users u
+    LEFT JOIN affectations a ON u.id = a.encadrant_id
+    WHERE u.role = 'encadrant'
+    GROUP BY u.id
 ");
 
 $encadrants = [];
