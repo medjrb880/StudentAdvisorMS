@@ -14,12 +14,12 @@ $etudiant_id = $_SESSION['user_id'];
 // 2) Récupérer l'encadrant validé (valide_par_chef = 1)
 $sql = "
   SELECT 
-    enc.prenom,
-    enc.nom,
-    enc.login AS email
+    u.prenom,
+    u.nom,
+    u.email
   FROM affectations a
-  JOIN encadrants enc 
-    ON a.encadrant_id = enc.id
+  JOIN users u 
+    ON a.encadrant_id = u.id
   WHERE a.etudiant_id = :etudiant_id
     AND a.valide_par_chef = 1
   LIMIT 1

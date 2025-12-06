@@ -10,7 +10,10 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
 require '../connexion.php'; // DB connection
 
 // Fetch all students (calculating average of 1st and 2nd year)
-$sql = "SELECT id, nom, prenom, moyenne_1ere_annee, moyenne_2eme_annee FROM etudiants ORDER BY nom ASC";
+$sql = "SELECT id, nom, prenom, numero_inscription, parcours, moyenne_1ere_annee, moyenne_2eme_annee 
+       FROM users 
+       WHERE role = 'etudiant' 
+       ORDER BY nom ASC";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $students = $stmt->fetchAll(PDO::FETCH_ASSOC);

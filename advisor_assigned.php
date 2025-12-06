@@ -3,18 +3,18 @@ session_start();
 require 'connexion.php';
 
 // Ensure the student is logged in
-if (!isset($_SESSION['client_id'])) {
+if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'etudiant') {
     header('Location: authentification.php');
     exit;
 }
 
-$student_id = $_SESSION['client_id'];
+$student_id = $_SESSION['user_id'];
 
 // Query to check if an advisor is assigned
-$sql = 'SELECT a.*, e.nom AS advisor_name, e.prenom AS advisor_firstname, e.email AS advisor_email
+$sql = 'SELECT a.*, u.nom AS advisor_name, u.prenom AS advisor_firstname, u.email AS advisor_email
         FROM affectations a
-        JOIN encadrants e ON a.encadrant_id = e.id
-        WHERE a.student_id = :student_id AND a.status = "validé"';
+        JOIN users u ON a.encadrant_id = u.id
+        WHERE a.etudiant_id = :student_id AND a.valide_par_chef = 1';
 $stmt = $conn->prepare($sql);
 $stmt->execute([':student_id' => $student_id]);
 $assignment = $stmt->fetch();
@@ -27,7 +27,7 @@ $assignment = $stmt->fetch();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Votre Encadrant</title>
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">

@@ -21,12 +21,13 @@ if ($check_pref->fetch()) {
 $etudiant_id = $_SESSION['user_id'];
 
 // Récupérer tous les encadrants
-$encadrants = $conn->query("SELECT id, nom FROM users WHERE role = 'encadrant'")->fetchAll(PDO::FETCH_ASSOC);
+$encadrants = $conn->query("SELECT id, nom, prenom FROM users WHERE role = 'encadrant'")->fetchAll(PDO::FETCH_ASSOC);
 
 // Récupérer l'encadrant affecté s'il existe
-$sql = "SELECT e.nom AS encadrant_nom FROM etudiants et
-        JOIN users e ON et.encadrant_id = e.id
-        WHERE et.id = :etudiant_id";
+$sql = "SELECT u.nom AS encadrant_nom, u.prenom AS encadrant_prenom 
+        FROM affectations a
+        JOIN users u ON a.encadrant_id = u.id
+        WHERE a.etudiant_id = :etudiant_id AND a.valide_par_chef = 1";
 $stmt = $conn->prepare($sql);
 $stmt->execute([':etudiant_id' => $etudiant_id]);
 $affectation = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -70,7 +71,7 @@ $affectation = $stmt->fetch(PDO::FETCH_ASSOC);
         <select name="choix1" required>
             <option value="">-- Sélectionner --</option>
             <?php foreach ($encadrants as $enc): ?>
-                <option value="<?= $enc['id'] ?>"><?= htmlspecialchars($enc['nom']) ?></option>
+                <option value="<?= $enc['id'] ?>"><?= htmlspecialchars($enc['prenom'] . ' ' . $enc['nom']) ?></option>
             <?php endforeach; ?>
         </select><br><br>
 
@@ -78,7 +79,7 @@ $affectation = $stmt->fetch(PDO::FETCH_ASSOC);
         <select name="choix2">
             <option value="">-- Facultatif --</option>
             <?php foreach ($encadrants as $enc): ?>
-                <option value="<?= $enc['id'] ?>"><?= htmlspecialchars($enc['nom']) ?></option>
+                <option value="<?= $enc['id'] ?>"><?= htmlspecialchars($enc['prenom'] . ' ' . $enc['nom']) ?></option>
             <?php endforeach; ?>
         </select><br><br>
 
@@ -86,7 +87,7 @@ $affectation = $stmt->fetch(PDO::FETCH_ASSOC);
         <select name="choix3">
             <option value="">-- Facultatif --</option>
             <?php foreach ($encadrants as $enc): ?>
-                <option value="<?= $enc['id'] ?>"><?= htmlspecialchars($enc['nom']) ?></option>
+                <option value="<?= $enc['id'] ?>"><?= htmlspecialchars($enc['prenom'] . ' ' . $enc['nom']) ?></option>
             <?php endforeach; ?>
         </select><br><br>
 
@@ -95,7 +96,7 @@ $affectation = $stmt->fetch(PDO::FETCH_ASSOC);
 
     <h2>📌 Encadrant affecté</h2>
     <?php if ($affectation && $affectation['encadrant_nom']): ?>
-        <p><strong>Vous avez été affecté à :</strong> <?= htmlspecialchars($affectation['encadrant_nom']) ?></p>
+        <p><strong>Vous avez été affecté à :</strong> <?= htmlspecialchars($affectation['encadrant_prenom'] . ' ' . $affectation['encadrant_nom']) ?></p>
     <?php else: ?>
         <p>Vous n'avez pas encore été affecté à un encadrant.</p>
     <?php endif; ?>
