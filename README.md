@@ -1,38 +1,48 @@
 # Gestion d'Encadrement - Project Documentation
 
 ## Overview
+
 This is a web application for managing student-advisor assignments in an academic institution. The system allows students to select their preferred advisors, and administrators can automatically assign advisors based on student rankings and advisor availability.
 
 ## Recent Fixes Applied
 
 ### 1. Database Structure Standardization
+
 **Problem:** The project had inconsistent references to three different table structures:
+
 - Some files referenced a `users` table
 - Others referenced separate `etudiants` and `encadrants` tables
 - This caused database query failures
 
-**Solution:** 
+**Solution:**
+
 - Created a unified `users` table that stores all user types (admin, etudiant, encadrant)
 - Added role-specific columns that are NULL for non-applicable roles
 - Created `database_schema.sql` with the complete database structure
 
 ### 2. Session Variable Consistency
-**Problem:** 
+
+**Problem:**
+
 - `advisor_assigned.php` used `$_SESSION['client_id']`
 - Other files used `$_SESSION['user_id']`
 - Missing `$_SESSION['prenom']` in login process
 
 **Solution:**
+
 - Standardized all files to use `$_SESSION['user_id']`
 - Added `prenom` to session variables in `login_process.php`
 
 ### 3. Table Join Errors
+
 **Problem:** Multiple files had incorrect JOIN statements:
+
 - Joining with non-existent `etudiants` table
 - Joining with non-existent `encadrants` table
 - Using wrong column names (e.g., `login` instead of `email`)
 
 **Solution:** Fixed all JOIN statements to use the `users` table:
+
 ```php
 // Old (incorrect)
 FROM affectations a
@@ -44,18 +54,22 @@ JOIN users u ON a.encadrant_id = u.id
 ```
 
 ### 4. Role Validation Error
+
 **Problem:** `validate_assignment.php` checked for role `'chef'` which doesn't exist in the system
 
 **Solution:** Changed to check for `'admin'` role
 
 ### 5. User Management Forms
-**Problem:** 
+
+**Problem:**
+
 - `add_user.php` and `edit_user.php` didn't handle:
   - First name (prenom)
   - Student-specific fields (numero_inscription, parcours, moyennes)
   - Advisor-specific fields (quota_max)
 
-**Solution:** 
+**Solution:**
+
 - Added dynamic form fields that show/hide based on selected role
 - Added JavaScript to toggle role-specific fields
 - Updated backend logic to handle all fields properly
@@ -63,6 +77,7 @@ JOIN users u ON a.encadrant_id = u.id
 ## Database Schema
 
 ### Users Table
+
 ```sql
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -71,22 +86,23 @@ CREATE TABLE users (
     email VARCHAR(150) UNIQUE NOT NULL,
     mot_de_passe VARCHAR(255) NOT NULL,
     role ENUM('admin', 'etudiant', 'encadrant') NOT NULL,
-    
+
     -- Student-specific fields
     numero_inscription VARCHAR(50) NULL,
     parcours VARCHAR(100) NULL,
     moyenne_1ere_annee DECIMAL(4,2) NULL,
     moyenne_2eme_annee DECIMAL(4,2) NULL,
-    
+
     -- Advisor-specific fields
     quota_max INT DEFAULT 0,
-    
+
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 ```
 
 ### Preferences Table
+
 ```sql
 CREATE TABLE preferences (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -101,6 +117,7 @@ CREATE TABLE preferences (
 ```
 
 ### Affectations Table
+
 ```sql
 CREATE TABLE affectations (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -117,12 +134,14 @@ CREATE TABLE affectations (
 ## Installation Instructions
 
 1. **Import Database:**
+
    ```bash
    mysql -u root -p gestion_encadrement < database_schema.sql
    ```
 
 2. **Configure Database Connection:**
    Edit `connexion.php` with your database credentials:
+
    ```php
    $host = 'localhost';
    $dbname = 'gestion_encadrement';
@@ -168,15 +187,18 @@ Gestion_Encadrement/
 ## Features
 
 ### For Students:
+
 - Select up to 3 preferred advisors
 - View assigned advisor once validated by admin
 - Reset preferences and assignments
 
 ### For Advisors:
+
 - View list of assigned students
 - See student details (name, registration number, program)
 
 ### For Administrators:
+
 - Manage user accounts (add, edit, delete)
 - View all students and their information
 - Run automatic assignment algorithm
@@ -186,6 +208,7 @@ Gestion_Encadrement/
 ## Auto-Assignment Algorithm
 
 The system assigns students to advisors based on:
+
 1. **Student Ranking:** Calculated as `(moyenne_1ere_annee + 2 * moyenne_2eme_annee) / 3`
 2. **Preferences:** Students are sorted by ranking (highest first)
 3. **Availability:** Each advisor has a quota (maximum number of students)
@@ -202,14 +225,17 @@ The system assigns students to advisors based on:
 ## Common Issues & Solutions
 
 ### Issue: "Étudiant n'existe pas dans la base de données"
+
 **Cause:** User account exists but not marked as 'etudiant' role
 **Solution:** Check user's role in database: `SELECT * FROM users WHERE id = X`
 
 ### Issue: "No advisor displayed after assignment"
+
 **Cause:** Assignment not validated (`valide_par_chef = 0`)
 **Solution:** Admin must validate the assignment in the affectations page
 
 ### Issue: Can't login
+
 **Cause:** Password mismatch or incorrect username
 **Solution:** Use sample credentials or reset password in database
 
