@@ -71,6 +71,7 @@
 ## User Journey Maps
 
 ### Student Journey
+
 ```
 1. Login
    │
@@ -90,6 +91,7 @@
 ```
 
 ### Admin Journey
+
 ```
 1. Login
    │
@@ -118,6 +120,7 @@
 ```
 
 ### Advisor Journey
+
 ```
 1. Login
    │
@@ -239,6 +242,7 @@ authentification.php
 ## Key Data Structures
 
 ### Session Variables
+
 ```php
 $_SESSION = [
     'user_id'   => 123,           // Primary key from users table
@@ -250,6 +254,7 @@ $_SESSION = [
 ```
 
 ### User Roles
+
 ```php
 ENUM('admin', 'etudiant', 'encadrant')
 
@@ -259,6 +264,7 @@ encadrant  → Can view assigned students
 ```
 
 ### Assignment Status
+
 ```php
 valide_par_chef: TINYINT(1)
 
@@ -271,6 +277,7 @@ valide_par_chef: TINYINT(1)
 ### Important SQL Queries
 
 **Get Students with Assignments:**
+
 ```sql
 SELECT u_student.*, u_advisor.nom, u_advisor.prenom
 FROM affectations a
@@ -281,8 +288,9 @@ WHERE u_student.role = 'etudiant'
 ```
 
 **Get Available Advisors:**
+
 ```sql
-SELECT u.id, u.nom, u.prenom, u.quota_max, 
+SELECT u.id, u.nom, u.prenom, u.quota_max,
        COUNT(a.id) as current_count
 FROM users u
 LEFT JOIN affectations a ON u.id = a.encadrant_id
@@ -292,10 +300,11 @@ HAVING current_count < u.quota_max;
 ```
 
 **Get Student Preferences:**
+
 ```sql
-SELECT p.*, 
-       u1.nom as choix1_nom, 
-       u2.nom as choix2_nom, 
+SELECT p.*,
+       u1.nom as choix1_nom,
+       u2.nom as choix2_nom,
        u3.nom as choix3_nom
 FROM preferences p
 LEFT JOIN users u1 ON p.choix1_id = u1.id
